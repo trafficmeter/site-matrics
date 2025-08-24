@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiteMetrics - Know Any Site's Traffic & Earnings</title>
+    <meta name="description" content="Discover website analytics, traffic insights, and revenue estimates in seconds. Analyze any website's performance metrics, device usage, and geographic distribution.">
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="SiteMetrics - Website Analytics Platform">
+    <meta property="og:description" content="Get comprehensive insights into any website's traffic, earnings, and performance metrics">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sitemetrics.com">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-theme">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="#" class="logo" onclick="showHome()">
+                    <div class="logo-icon">
+                        <i data-lucide="bar-chart-3"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>SiteMetrics</h1>
+                        <p>Analytics Platform</p>
+                    </div>
+                </a>
+                
+                <!-- Navigation -->
+                <nav class="navigation">
+                    <a href="#" class="nav-link active" data-testid="nav-home" onclick="showHome()">Home</a>
+                    <a href="#" class="nav-link" data-testid="nav-analytics" onclick="showAnalytics()">Analytics</a>
+                    <a href="#" class="nav-link" data-testid="nav-compare" onclick="showCompare()">Compare</a>
+                    <a href="#" class="nav-link" data-testid="nav-bookmarks" onclick="showBookmarks()">Bookmarks</a>
+                </nav>
+                
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" data-testid="theme-toggle" onclick="toggleTheme()">
+                    <i data-lucide="moon" class="theme-icon moon-icon"></i>
+                    <i data-lucide="sun" class="theme-icon sun-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-background"></div>
+                <div class="floating-elements">
+                    <div class="floating-element float-1"></div>
+                    <div class="floating-element float-2"></div>
+                    <div class="floating-element float-3"></div>
+                </div>
+                
+                <div class="hero-content">
+                    <div class="hero-logo">
+                        <div class="hero-logo-icon">
+                            <i data-lucide="bar-chart-3"></i>
+                        </div>
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        Know Any Site's<br>
+                        <span class="gradient-text">Traffic & Earnings</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle">
+                        Discover website analytics, traffic insights, and revenue estimates in seconds
+                    </p>
+                    
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <input 
+                                type="url" 
+                                id="searchInput" 
+                                placeholder="Enter website URL (e.g., example.com)"
+                                data-testid="search-input"
+                            >
+                            <button class="search-button" data-testid="search-button" onclick="searchWebsite()">
+                                <i data-lucide="search"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="popular-sites">
+                            <span>Try:</span>
+                            <button class="popular-site" data-testid="example-google.com" onclick="setSearchValue('google.com')">google.com</button>
+                            <button class="popular-site" data-testid="example-youtube.com" onclick="setSearchValue('youtube.com')">youtube.com</button>
+                            <button class="popular-site" data-testid="example-github.com" onclick="setSearchValue('github.com')">github.com</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="section">
+            <div class="container">
+                <div class="loading" id="analyticsLoading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <h2>Analyzing Website</h2>
+                    <p id="loadingText">Fetching analytics data...</p>
+                </div>
+                
+                <div id="analyticsContent" style="display: none;">
+                    <div class="section-header">
+                        <h2>Website Analytics Dashboard</h2>
+                        <p>Comprehensive insights for <span id="currentWebsite" data-testid="current-website"></span></p>
+                    </div>
+                    
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon blue">
+                                    <i data-lucide="users"></i>
+                                </div>
+                                <span class="stat-change positive">+12.5%</span>
+                            </div>
+                            <h3 id="monthlyVisitors" data-testid="stat-monthly-visitors">0</h3>
+                            <p>Monthly Visitors</p>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon purple">
+                                    <i data-lucide="eye"></i>
+                                </div>
+                                <span class="stat-change positive">+8.2%</span>
+                            </div>
+                            <h3 id="pageViews" data-testid="stat-page-views">0</h3>
+                            <p>Page Views</p>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon green">
+                                    <i data-lucide="trending-up"></i>
+                                </div>
+                                <span class="stat-change negative">+2.1%</span>
+                            </div>
+                            <h3 id="bounceRate" data-testid="stat-bounce-rate">0%</h3>
+                            <p>Bounce Rate</p>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon orange">
+                                    <i data-lucide="dollar-sign"></i>
+                                </div>
+                                <span class="stat-change positive">+15.7%</span>
+                            </div>
+                            <h3 id="estimatedRevenue" data-testid="stat-est.-monthly-revenue">$0</h3>
+                            <p>Est. Monthly Revenue</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts Grid -->
+                    <div class="charts-grid">
+                        <!-- Traffic Chart -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Traffic Overview</h3>
+                                <div class="chart-controls">
+                                    <button class="chart-btn active" data-testid="chart-period-30d">30D</button>
+                                    <button class="chart-btn" data-testid="chart-period-90d">90D</button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="trafficChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Traffic Sources -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Traffic Sources</h3>
+                            </div>
+                            <div id="trafficSources" class="traffic-sources">
+                                <!-- Traffic sources will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Device Chart -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Device Split</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="deviceChart"></canvas>
+                            </div>
+                            <div id="deviceStats" class="device-stats">
+                                <!-- Device stats will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Top Countries -->
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Top Countries</h3>
+                            </div>
+                            <div id="topCountries" class="top-countries">
+                                <!-- Top countries will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compare Section -->
+        <section id="compare" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Website Comparison</h2>
+                    <p>Compare traffic and performance metrics between websites</p>
+                </div>
+                
+                <div class="compare-inputs">
+                    <div class="input-group">
+                        <label for="websiteA">Website A</label>
+                        <input type="url" id="websiteA" placeholder="Enter first website URL" data-testid="website-a-input">
+                    </div>
+                    <div class="input-group">
+                        <label for="websiteB">Website B</label>
+                        <input type="url" id="websiteB" placeholder="Enter second website URL" data-testid="website-b-input">
+                    </div>
+                    <button class="compare-button" data-testid="compare-button" onclick="compareWebsites()">
+                        <span class="compare-text">Compare Websites</span>
+                        <span class="compare-loading" style="display: none;">
+                            <div class="loading-spinner small"></div>
+                            Comparing...
+                        </span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div id="compareResults" class="compare-results" style="display: none;">
+                    <!-- Comparison results will be populated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Bookmarks Section -->
+        <section id="bookmarks" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Saved Websites</h2>
+                    <p>Keep track of your favorite websites and their analytics</p>
+                </div>
+                
+                <div id="bookmarksContent">
+                    <!-- Bookmarks will be populated here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <div id="fabOptions" class="fab-options">
+            <button class="fab-option" data-testid="fab-share" onclick="sharePage()">
+                <i data-lucide="share"></i>
+            </button>
+            <button class="fab-option" data-testid="fab-bookmark" onclick="bookmarkWebsite()">
+                <i data-lucide="bookmark"></i>
+            </button>
+            <button class="fab-option" data-testid="fab-search" onclick="scrollToTop()">
+                <i data-lucide="search"></i>
+            </button>
+        </div>
+        <button class="fab-main" data-testid="fab-main" onclick="toggleFAB()">
+            <i data-lucide="plus" class="fab-icon-plus"></i>
+            <i data-lucide="x" class="fab-icon-close"></i>
+        </button>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
